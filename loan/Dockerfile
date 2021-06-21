@@ -16,9 +16,9 @@ RUN apk --no-cache add tzdata
 ENV TZ=America/Sao_Paulo
 
 COPY --from=builder /app/loan .
-COPY ["loan/appsettings.Development.json","."]
-COPY ["loan/appsettings.Production.json","."]
-COPY ["loan/appsettings.Staging.json","."]
+COPY ["loan/settings.Development.json","."]
+COPY ["loan/settings.Production.json","."]
+COPY ["loan/settings.Staging.json","."]
 
 EXPOSE 9000
 
