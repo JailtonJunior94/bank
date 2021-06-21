@@ -2,6 +2,6 @@
     "mongo": {
         "connectionString": "mongodb://localhost:27017",
         "database": "CustomerDB",
-        "collection": "Customers"
+        "customersCollection": "Customers"
     }
 }

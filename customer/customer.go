@@ -5,6 +5,9 @@ import (
 	"log"
 	"os"
 
+	"github.com/jailtonjunior94/bank/customer/infra/database"
+	"github.com/jailtonjunior94/bank/customer/infra/environments"
+	"github.com/jailtonjunior94/bank/customer/infra/ioc"
 	"github.com/jailtonjunior94/bank/customer/presentation/routes"
 
 	"github.com/gofiber/fiber/v2"
@@ -25,6 +28,12 @@ func main() {
 	app.Use(cors.New())
 	app.Use(logger.New())
 
+	environments.NewSettings()
+
+	mongoConnection := database.NewConnection()
+	defer mongoConnection.Disconnect()
+
+	ioc.SetupDependencyInjection(mongoConnection)
 	routes.SetupRoutes(app)
 
 	fmt.Printf("🚀 Customer API is running on http://localhost:%v", port)
