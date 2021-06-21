@@ -3,5 +3,5 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("I'm a risk")
+	fmt.Println("I'm a customer")
 }

@@ -1,0 +1,78 @@
+version: "3.8"
+services: 
+  customer:
+    container_name: customer-api
+    build: 
+      context: .
+      dockerfile: customer/Dockerfile
+    image: customer-api
+    restart: always
+    environment:
+      - ENVIRONMENT=Staging
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+      - rabbitmq
+    networks:
+      - bank_net
+
+  loan:
+    container_name: loan-api
+    build: 
+      context: .
+      dockerfile: loan/Dockerfile
+    image: loan-api
+    restart: always
+    environment:
+      - ENVIRONMENT=Staging
+    ports:
+      - "9000:9000"
+    depends_on:
+      - mongodb
+      - rabbitmq
+    networks:
+      - bank_net
+
+  risk:
+    container_name: risk-worker
+    build: 
+      context: .
+      dockerfile: risk/Dockerfile
+    image: risk-worker
+    restart: always
+    environment:
+      - ENVIRONMENT=Staging
+    depends_on:
+      - mongodb
+      - rabbitmq
+    networks:
+      - bank_net
+
+  mongodb:
+    container_name: bank-db
+    image: mongo
+    restart: always
+    volumes:
+      - ./.docker/data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - bank_net
+
+  rabbitmq:
+    container_name: bank-rabbitmq
+    image: rabbitmq:3-management
+    restart: always
+    volumes: 
+      - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./.docker/rabbitmq/log/:/var/log/rabbitmq/
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - bank_net
+
+networks:
+  bank_net:
+    driver: bridge

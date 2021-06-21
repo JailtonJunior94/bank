@@ -2,38 +2,39 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Customer API (Development)",
-            "type": "coreclr",
+            "name": "Customer (API)",
+            "type": "go",
             "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/customers/Bank.Api/bin/Debug/netcoreapp3.1/Bank.Api.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/customers/Bank.Api",
-            "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
-            },
+            "mode": "auto",
+            "program": "${workspaceFolder}/customer/customer.go",
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ENVIRONMENT": "Development",
+                "PORT": 8000
             },
+            "args": []
         },
         {
-            "name": "Customer API (Production)",
-            "type": "coreclr",
+            "name": "Loan (API)",
+            "type": "go",
             "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/customers/Bank.Api/bin/Debug/netcoreapp3.1/Bank.Api.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/customers/Bank.Api",
-            "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
-            },
+            "mode": "auto",
+            "program": "${workspaceFolder}/loan/loan.go",
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Production"
+                "ENVIRONMENT": "Development",
+                "PORT": 9000
             },
+            "args": []
+        },
+        {
+            "name": "Risk (Worker)",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/risk/risk.go",
+            "env": {
+                "ENVIRONMENT": "Development"
+            },
+            "args": []
         },
     ]
 }
