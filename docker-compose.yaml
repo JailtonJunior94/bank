@@ -29,6 +29,7 @@ services:
     ports:
       - "9000:9000"
     depends_on:
+      - customer
       - mongodb
       - rabbitmq
     networks:
@@ -65,8 +66,8 @@ services:
     image: rabbitmq:3-management
     restart: always
     volumes: 
-      - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
-      - ./.docker/rabbitmq/log/:/var/log/rabbitmq/
+      - ./.docker/rabbitmq-bank/data/:/var/lib/rabbitmq-bank/
+      - ./.docker/rabbitmq-bank/log/:/var/log/rabbitmq-bank/
     ports:
       - "5672:5672"
       - "15672:15672"

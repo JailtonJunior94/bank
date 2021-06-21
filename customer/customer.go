@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/jailtonjunior94/bank/customer/presentation/routes"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -22,6 +24,8 @@ func main() {
 
 	app.Use(cors.New())
 	app.Use(logger.New())
+
+	routes.SetupRoutes(app)
 
 	fmt.Printf("🚀 Customer API is running on http://localhost:%v", port)
 	log.Fatal(app.Listen(fmt.Sprintf(":%v", port)))

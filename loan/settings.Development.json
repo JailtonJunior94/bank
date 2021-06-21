@@ -1,0 +1,10 @@
+{
+    "mongo": {
+        "connectionString": "mongodb://localhost:27017",
+        "database": "LoanDB",
+        "collection": "Loans"
+    },
+    "customer": {
+        "baseURL": ""
+    }
+}
