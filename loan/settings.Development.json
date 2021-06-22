@@ -5,6 +5,6 @@
         "collection": "Loans"
     },
     "customer": {
-        "baseURL": ""
+        "baseURL": "http://localhost:8000"
     }
 }
