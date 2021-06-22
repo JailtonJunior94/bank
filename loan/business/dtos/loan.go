@@ -16,6 +16,7 @@ func NewLoanResponse(id, document, status string, income, value, rate float64, q
 		Document: document,
 		Income:   income,
 		Value:    value,
+		Quantity: quantity,
 		Rate:     rate,
 		Status:   status,
 	}

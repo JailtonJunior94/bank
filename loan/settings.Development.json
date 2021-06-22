@@ -2,9 +2,14 @@
     "mongo": {
         "connectionString": "mongodb://localhost:27017",
         "database": "LoanDB",
-        "collection": "Loans"
+        "loanCollection": "Loans"
     },
-    "customer": {
-        "baseURL": "http://localhost:8000"
+    "customerApi": {
+        "baseURL": "http://localhost:8000",
+        "customers": "/api/v1/customers/%s"
+    },
+    "rabbitMQ": {
+        "connection": "amqp://guest:guest@localhost:5672",
+        "queueLoanRisk": "loans-risk"
     }
 }

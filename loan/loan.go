@@ -5,6 +5,11 @@ import (
 	"log"
 	"os"
 
+	"github.com/jailtonjunior94/bank/loan/infra/database"
+	"github.com/jailtonjunior94/bank/loan/infra/environments"
+	"github.com/jailtonjunior94/bank/loan/infra/ioc"
+	"github.com/jailtonjunior94/bank/loan/presentation/routes"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -23,6 +28,14 @@ func main() {
 	app.Use(cors.New())
 	app.Use(logger.New())
 
-	fmt.Printf("🚀 Loan API is running on http://localhost:%v", port)
+	environments.NewSettings()
+
+	mongoConnection := database.NewConnection()
+	defer mongoConnection.Disconnect()
+
+	ioc.SetupDependencyInjection(mongoConnection)
+	routes.SetupRoutes(app)
+
+	fmt.Printf("🚀 Customer API is running on http://localhost:%v", port)
 	log.Fatal(app.Listen(fmt.Sprintf(":%v", port)))
 }
