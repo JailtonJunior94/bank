@@ -21,7 +21,22 @@ func NewLoanService(r interfaces.ILoanRepository, f interfaces.ICustomerFacade, 
 }
 
 func (s *LoanService) LoanByDocument(document string) *dtos.HttpResponse {
-	return nil
+	loans, err := s.LoanRepository.GetByDocument(document)
+	if err != nil {
+		return dtos.ServerError()
+	}
+
+	if len(loans) == 0 {
+		return dtos.NotFound("Não foi encontrado nenhum empréstimo")
+	}
+
+	var res []*dtos.LoanResponse
+	for _, l := range loans {
+		loan := dtos.NewLoanResponse(l.ID.Hex(), l.Document, l.Status, l.Income, l.Value, l.Rate, l.Quantity)
+		res = append(res, loan)
+	}
+
+	return dtos.Ok(res)
 }
 
 func (s *LoanService) CreateLoan(r *dtos.CreateLoanCommand) *dtos.HttpResponse {
