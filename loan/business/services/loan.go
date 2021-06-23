@@ -51,7 +51,7 @@ func (s *LoanService) CreateLoan(r *dtos.CreateLoanCommand) *dtos.HttpResponse {
 		return dtos.ServerError()
 	}
 
-	loanMade := events.NewLoanMade(l.Document, l.Quantity, l.Rate, l.Value)
+	loanMade := events.NewLoanMade(l.Document, l.Quantity, l.Income, l.Rate, l.Value)
 	body, err := json.Marshal(loanMade)
 	if err != nil {
 		return dtos.ServerError()

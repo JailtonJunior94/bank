@@ -1,7 +1,6 @@
 {
-    "mongo": {
-        "connectionString": "mongodb://localhost:27017",
-        "database": "LoanDB",
-        "collection": "Loans"
+    "rabbitMQ": {
+        "connection": "amqp://guest:guest@localhost:5672",
+        "queueLoanRisk": "loans-risk"
     }
 }

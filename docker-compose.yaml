@@ -17,23 +17,23 @@ services:
     networks:
       - bank_net
 
-  # loan:
-  #   container_name: loan-api
-  #   build: 
-  #     context: .
-  #     dockerfile: loan/Dockerfile
-  #   image: loan-api
-  #   restart: always
-  #   environment:
-  #     - ENVIRONMENT=Staging
-  #   ports:
-  #     - "9000:9000"
-  #   depends_on:
-  #     - customer
-  #     - mongodb
-  #     - rabbitmq
-  #   networks:
-  #     - bank_net
+  loan:
+    container_name: loan-api
+    build: 
+      context: .
+      dockerfile: loan/Dockerfile
+    image: loan-api
+    restart: always
+    environment:
+      - ENVIRONMENT=Staging
+    ports:
+      - "9000:9000"
+    depends_on:
+      - customer
+      - mongodb
+      - rabbitmq
+    networks:
+      - bank_net
 
   # risk:
   #   container_name: risk-worker

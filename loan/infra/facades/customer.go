@@ -3,6 +3,7 @@ package facades
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/jailtonjunior94/bank/loan/business/dtos"
@@ -18,14 +19,15 @@ func NewCustomerFacade() interfaces.ICustomerFacade {
 }
 
 func (f *CustomerFacade) CustomerByDocument(document string) (customer *dtos.CustomerResponse, err error) {
-	url := fmt.Sprintf(environments.CustomerBaseURL+environments.CustomerRoute, document)
-	res, err := http.Get(url)
+	res, err := http.Get(fmt.Sprintf(environments.CustomerBaseURL+environments.CustomerRoute, document))
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	defer res.Body.Close()
 
 	if err := json.NewDecoder(res.Body).Decode(&customer); err != nil {
+		log.Println(err)
 		return nil, err
 	}
 
