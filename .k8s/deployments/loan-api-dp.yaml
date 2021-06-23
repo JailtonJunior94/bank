@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: loan-api
+  name: loan-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loan-api
+  template:
+    metadata:
+      labels:
+        app: loan-api
+    spec:
+      containers:
+        - name: loan-api
+          image: jailtonjunior/loan-api:v2
+          resources:
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+            requests:
+              cpu: "100m"
+          env:
+            - name: ENVIRONMENT
+              value: Production
+          ports:
+            - containerPort: 8000

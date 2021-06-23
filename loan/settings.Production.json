@@ -1,0 +1,15 @@
+{
+    "mongo": {
+        "connectionString": "mongodb://mongouser:mongopwd@mongodb-service:27017",
+        "database": "LoanDB",
+        "loanCollection": "Loans"
+    },
+    "customerApi": {
+        "baseURL": "http://customer-api-service:8000",
+        "customers": "/api/v1/customers/%s"
+    },
+    "rabbitMQ": {
+        "connection": "amqp://bankuser:bank@2021@rabbitmq-service:5672",
+        "queueLoanRisk": "loans-risk"
+    }
+}

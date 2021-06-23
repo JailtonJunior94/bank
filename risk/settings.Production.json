@@ -1,0 +1,10 @@
+{
+    "loanApi": {
+        "baseURL": "http://loan-api-service:9000",
+        "updateLoan": "/api/v1/loans/%s"
+    },
+    "rabbitMQ": {
+        "connection": "amqp://bankuser:bank@2021@rabbitmq-service:5672",
+        "queueLoanRisk": "loans-risk"
+    }
+}

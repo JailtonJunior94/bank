@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: risk-worker
+  name: risk-worker-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: risk-worker
+  template:
+    metadata:
+      labels:
+        app: risk-worker
+    spec:
+      containers:
+        - name: risk-worker
+          image: jailtonjunior/risk-worker:v2
+          resources:
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+            requests:
+              cpu: "100m"
+          env:
+            - name: ENVIRONMENT
+              value: Production

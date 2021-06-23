@@ -1,0 +1,7 @@
+{
+    "mongo": {
+        "connectionString": "mongodb://mongouser:mongopwd@mongodb-service:27017",
+        "database": "CustomerDB",
+        "customersCollection": "Customers"
+    }
+}
