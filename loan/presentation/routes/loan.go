@@ -9,4 +9,5 @@ import (
 func AddLoanRouter(router fiber.Router) {
 	router.Get("/loans/:document", ioc.LoanController.LoanByDocument)
 	router.Post("/loans", ioc.LoanController.CreateLoan)
+	router.Put("/loans/:id", ioc.LoanController.UpdateLoan)
 }

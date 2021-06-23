@@ -1,8 +1,6 @@
 package services
 
 import (
-	"fmt"
-
 	"github.com/jailtonjunior94/bank/risk/business/dtos"
 	"github.com/jailtonjunior94/bank/risk/business/interfaces"
 )
@@ -22,7 +20,9 @@ func (s *RiskService) AnalyzeRisk(l *dtos.Loan) error {
 		return err
 	}
 
-	fmt.Println(e)
+	if err := s.LoanFacade.UpdateLoan(l.LoanID, e); err != nil {
+		return err
+	}
 
 	return nil
 }

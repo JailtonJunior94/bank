@@ -35,20 +35,22 @@ services:
     networks:
       - bank_net
 
-  # risk:
-  #   container_name: risk-worker
-  #   build: 
-  #     context: .
-  #     dockerfile: risk/Dockerfile
-  #   image: risk-worker
-  #   restart: always
-  #   environment:
-  #     - ENVIRONMENT=Staging
-  #   depends_on:
-  #     - mongodb
-  #     - rabbitmq
-  #   networks:
-  #     - bank_net
+  risk:
+    container_name: risk-worker
+    build: 
+      context: .
+      dockerfile: risk/Dockerfile
+    image: risk-worker
+    restart: always
+    environment:
+      - ENVIRONMENT=Staging
+    depends_on:
+      - customer
+      - loan
+      - mongodb
+      - rabbitmq
+    networks:
+      - bank_net
 
   mongodb:
     container_name: bank-db

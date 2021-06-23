@@ -1,5 +1,7 @@
 package interfaces
 
+import "github.com/jailtonjunior94/bank/risk/business/dtos"
+
 type ILoanFacade interface {
-	GetById(id string) (loan interface{}, err error)
+	UpdateLoan(id string, r *dtos.Evaluation) error
 }

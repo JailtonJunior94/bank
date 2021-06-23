@@ -1,4 +1,8 @@
 {
+    "loanApi": {
+        "baseURL": "http://localhost:9000",
+        "updateLoan": "/api/v1/loans/%s"
+    },
     "rabbitMQ": {
         "connection": "amqp://guest:guest@localhost:5672",
         "queueLoanRisk": "loans-risk"

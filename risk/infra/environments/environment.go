@@ -11,6 +11,8 @@ import (
 var (
 	RabbitMQConnection = ""
 	QueueLoanRisk      = ""
+	LoanBaseURL        = ""
+	LoanRoute          = ""
 )
 
 func NewSettings() {
@@ -27,4 +29,6 @@ func NewSettings() {
 
 	RabbitMQConnection = viper.GetString("rabbitMQ.connection")
 	QueueLoanRisk = viper.GetString("rabbitMQ.queueLoanRisk")
+	LoanBaseURL = viper.GetString("loanApi.baseURL")
+	LoanRoute = viper.GetString("loanApi.updateLoan")
 }

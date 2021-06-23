@@ -32,7 +32,9 @@ func (s *LoanService) LoanByDocument(document string) *dtos.HttpResponse {
 
 	var res []*dtos.LoanResponse
 	for _, l := range loans {
-		loan := dtos.NewLoanResponse(l.ID.Hex(), l.Document, l.Status, l.Income, l.Value, l.Rate, l.Quantity)
+		loan := dtos.NewLoanResponse(l.ID.Hex(), l.Status, l.Income, l.Value, l.Rate, l.Quantity)
+		loan.AddCustomer(l.Customer)
+		loan.AddEvaluation(l.Evaluation)
 		res = append(res, loan)
 	}
 
@@ -45,13 +47,14 @@ func (s *LoanService) CreateLoan(r *dtos.CreateLoanCommand) *dtos.HttpResponse {
 		return dtos.BadRequest("Não foi possível cadastrar empréstimo")
 	}
 
-	newLoan := entities.NewLoan(c.Document, r.Income, r.Value, r.Rate, r.Quantity)
+	newLoan := entities.NewLoan(r.Income, r.Value, r.Rate, r.Quantity)
+	newLoan.AddCustomer(entities.NewCustomer(c.Document, c.Name))
 	l, err := s.LoanRepository.Add(newLoan)
 	if err != nil {
 		return dtos.ServerError()
 	}
 
-	loanMade := events.NewLoanMade(l.Document, l.Quantity, l.Income, l.Rate, l.Value)
+	loanMade := events.NewLoanMade(l.ID.Hex(), l.Quantity, l.Income, l.Rate, l.Value)
 	body, err := json.Marshal(loanMade)
 	if err != nil {
 		return dtos.ServerError()
@@ -61,6 +64,30 @@ func (s *LoanService) CreateLoan(r *dtos.CreateLoanCommand) *dtos.HttpResponse {
 		return dtos.ServerError()
 	}
 
-	res := dtos.NewLoanResponse(l.ID.Hex(), l.Document, l.Status, l.Income, l.Value, l.Rate, l.Quantity)
+	res := dtos.NewLoanResponse(l.ID.Hex(), l.Status, l.Income, l.Value, l.Rate, l.Quantity)
+	res.AddCustomer(l.Customer)
+	res.AddEvaluation(l.Evaluation)
+
 	return dtos.Created(res)
+}
+
+func (s *LoanService) UpdateLoan(id string, r *dtos.UpdateLoanCommand) *dtos.HttpResponse {
+	l, err := s.LoanRepository.GetById(id)
+	if err != nil {
+		return dtos.ServerError()
+	}
+
+	if l == nil {
+		return dtos.NotFound("Não foi encontrado nenhum empréstimo")
+	}
+
+	l.AddEvaluation(entities.NewEvaluation(r.Approved, r.Description))
+	l.ChangeStatus(r.Approved)
+
+	_, err = s.LoanRepository.Update(l)
+	if err != nil {
+		return dtos.ServerError()
+	}
+
+	return dtos.NoContent()
 }

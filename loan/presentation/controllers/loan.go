@@ -33,3 +33,13 @@ func (s *LoanController) CreateLoan(c *fiber.Ctx) error {
 	response := s.Service.CreateLoan(request)
 	return c.Status(response.StatusCode).JSON(response.Data)
 }
+
+func (s *LoanController) UpdateLoan(c *fiber.Ctx) error {
+	request := new(dtos.UpdateLoanCommand)
+	if err := c.BodyParser(request); err != nil {
+		return c.Status(fiber.StatusUnprocessableEntity).JSON(fiber.Map{"error": "Unprocessable Entity"})
+	}
+
+	response := s.Service.UpdateLoan(c.Params("id"), request)
+	return c.Status(response.StatusCode).JSON(response.Data)
+}
