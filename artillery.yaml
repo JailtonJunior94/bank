@@ -1,0 +1,15 @@
+config:
+  target: "http://143.244.214.78:8000"
+  phases:
+    - duration: 360
+      arrivalRate: 8
+scenarios:
+  - flow:
+      - post:
+          url: "/api/v1/customers"
+          json:
+            document: "99999999999"
+            name: "Antony Lima Teixeira"
+            birthDay: "2020-12-19T17:30:00.000Z"
+      - get:
+          url: "/api/v1/customers/43040606867"

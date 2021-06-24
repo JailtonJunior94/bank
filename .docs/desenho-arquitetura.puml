@@ -1,0 +1,29 @@
+@startuml desenho-arquitetura
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+
+!include DEVICONS/go.puml
+!include DEVICONS/mongodb.puml
+
+left to right direction
+
+System_Boundary(fluxo, "Bank") {  
+    Container(LoanAPI, "Loan API", "Golang", "API de gestão de empréstimos", "Golang")
+    Container(RiskWorker, "Risk Worker", "Golang", "Worker para analisar risco dos empréstimos", "Golang")
+    Container(RabbitMQ, "reservation-notifier", "RabbitMQ", "Queue para análise de risco", "rabbitMQ")
+    ContainerDb(CustomerDB, "Customer DB", "MongoDB", "Prover informações de clientes", "mongoDB")
+    ContainerDb(LoanDB, "Loan DB", "MongoDB", "Prover informações de empréstimos", "mongoDB")
+    Container(CustomerAPI, "Customer API", "Golang", "API de gestão de clientes", "Golang")
+
+    Rel(CustomerAPI, CustomerDB, "1º Criação e Busca de clientes", "go.mongodb.org/mongo-driver")
+    Rel_R(LoanAPI, CustomerAPI, "2º Verifica se cliente existe", "http/json")
+    Rel_L(LoanAPI, LoanDB, "3º Criação da solicitação de empréstimo", "go.mongodb.org/mongo-driver")
+    Rel(LoanAPI, RabbitMQ, "4º Envia evento LoanMade (Empréstimo criado)", "amqp")
+    Rel_R(RabbitMQ, RiskWorker, "5º Análisa o risco referente ao empréstimo", "amqp")
+    Rel(RiskWorker, LoanAPI, "6º Atualiza se empréstimo foi aprovado ou não", "amqp")
+}
+
+@enduml
