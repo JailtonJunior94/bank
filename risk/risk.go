@@ -16,6 +16,7 @@ func main() {
 	channel := ioc.RabbitMQ.GetChannel()
 	defer channel.Close()
 
+	channel.QueueDeclare(environments.QueueLoanRisk, true, false, false, false, nil)
 	messages, err := channel.Consume(environments.QueueLoanRisk, "", true, false, false, false, nil)
 	if err != nil {
 		log.Fatal(err)
@@ -31,7 +32,7 @@ func main() {
 	}()
 
 	fmt.Println("Successfully connected to our RabbitMQ instance")
-	fmt.Println(" [*] - Waiting for messages")
+	fmt.Println("[*] - Waiting for messages")
 
 	<-forever
 }
