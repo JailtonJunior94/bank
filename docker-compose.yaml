@@ -76,6 +76,27 @@ services:
     networks:
       - bank_net
 
+  prometheus:
+    image: prom/prometheus:v2.24.1
+    volumes: 
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+    ports: 
+      - "9090:9090"
+    depends_on: 
+      - customer
+      - loan
+    networks: 
+      - bank_net
+
+  grafana:
+    image: grafana/grafana:7.2.1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - bank_net
+
 networks:
   bank_net:
     driver: bridge
