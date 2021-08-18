@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: loan-api
-          image: jailtonjunior/loan-api:latest
+          image: jailtonjunior/loan-api:v7
           resources:
             limits:
               cpu: "200m"
