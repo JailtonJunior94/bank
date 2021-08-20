@@ -27,4 +27,4 @@ spec:
             - name: ENVIRONMENT
               value: Production
           ports:
-            - containerPort: 8000
+            - containerPort: 9000

@@ -10,9 +10,9 @@ spec:
       http:
         paths:
           - pathType: Prefix
-            path: /customers
+            path: /loans
             backend:
               service:
-                name: customer-api-service
+                name: loan-api-service
                 port:
                   number: 80

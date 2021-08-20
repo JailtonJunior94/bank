@@ -6,5 +6,6 @@ spec:
   selector:
     app: customer-api
   ports:
-    - port: 8000
+    - port: 80
       targetPort: 8000
+  type: ClusterIP

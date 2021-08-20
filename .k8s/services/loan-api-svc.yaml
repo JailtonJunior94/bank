@@ -6,6 +6,6 @@ spec:
   selector:
     app: loan-api
   ports:
-    - port: 9000
+    - port: 80
       targetPort: 9000
-  type: LoadBalancer
+  type: ClusterIP

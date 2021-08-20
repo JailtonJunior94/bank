@@ -10,4 +10,4 @@ spec:
       port: 5672
     - name: management
       port: 15672
-  type: LoadBalancer
+  type: ClusterIP
