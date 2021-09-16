@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: risk-worker
-          image: jailtonjunior/risk-worker:v11
+          image: jailtonjunior/risk-worker:v12
           resources:
             limits:
               cpu: "200m"
