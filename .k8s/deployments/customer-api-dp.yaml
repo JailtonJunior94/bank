@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: customer-api
-          image: jailtonjunior/customer-api:v7
+          image: jailtonjunior/customer-api:v11
           resources:
             limits:
               cpu: "200m"

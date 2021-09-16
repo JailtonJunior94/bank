@@ -5,7 +5,7 @@
         "loanCollection": "Loans"
     },
     "customerApi": {
-        "baseURL": "http://customer-api-service:8000",
+        "baseURL": "http://customer-api-service",
         "customers": "/api/v1/customers/%s"
     },
     "rabbitMQ": {

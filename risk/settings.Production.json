@@ -1,6 +1,6 @@
 {
     "loanApi": {
-        "baseURL": "http://loan-api-service:9000",
+        "baseURL": "http://loan-api-service",
         "updateLoan": "/api/v1/loans/%s"
     },
     "rabbitMQ": {
