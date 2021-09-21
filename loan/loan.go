@@ -10,7 +10,6 @@ import (
 	"github.com/jailtonjunior94/bank/loan/infra/ioc"
 	"github.com/jailtonjunior94/bank/loan/presentation/routes"
 
-	"github.com/ansrivas/fiberprometheus/v2"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -28,10 +27,6 @@ func main() {
 
 	app.Use(cors.New())
 	app.Use(logger.New())
-
-	prometheus := fiberprometheus.New("customer-api")
-	prometheus.RegisterAt(app, "/metrics")
-	app.Use(prometheus.Middleware)
 
 	environments.NewSettings()
 

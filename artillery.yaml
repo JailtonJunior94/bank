@@ -1,15 +1,29 @@
 config:
-  target: "http://143.244.214.78:8000"
+  target: "http:/"
   phases:
+    - duration: 60
+      arrivalRate: 5
+      rampTo: 10
+      name: Inicialização (Warm up) da aplicação
     - duration: 360
-      arrivalRate: 8
+      arrivalRate: 30
+      name: Adicionando mais carga
+    - duration: 120
+      arrivalRate: 15
+      name: Finalização
 scenarios:
   - flow:
+      # - post:
+      #     url: "/127.0.0.1:49358/api/v1/customers"
+      #     json:
+      #       document: "43040606867"
+      #       name: "Antony Lima Teixeira"
+      #       birthDay: "2020-12-19T17:30:00.000Z"
       - post:
-          url: "/api/v1/customers"
+          url: "/127.0.0.1:52715/api/v1/loans"
           json:
-            document: "99999999999"
-            name: "Antony Lima Teixeira"
-            birthDay: "2020-12-19T17:30:00.000Z"
-      - get:
-          url: "/api/v1/customers/43040606867"
+            document: "43040606867"
+            income: 1000
+            value: 23000
+            quantity: 15
+            rate: 2.5

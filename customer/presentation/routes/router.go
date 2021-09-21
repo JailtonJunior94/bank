@@ -1,8 +1,19 @@
 package routes
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"time"
+
+	"github.com/gofiber/fiber/v2"
+)
 
 func SetupRoutes(app *fiber.App) {
 	v1 := app.Group("/api/v1")
 	AddCustomerRouter(v1)
+
+	app.Get("/health", func(c *fiber.Ctx) error {
+		return c.JSON(fiber.Map{
+			"status": "Healthy",
+			"time":   time.Now(),
+		})
+	})
 }
