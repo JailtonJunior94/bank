@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-hosts
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  # tls:
+  #   - hosts:
+  #       - clientes.jailtonjunior.site
+  #       - emprestimos.jailtonjunior.site
+  #     secretName: bank-api-tls
+  rules:
+    - host: clientes.jailtonjunior.site
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: customer-api-service
+                port:
+                  number: 80
+    - host: emprestimos.jailtonjunior.site
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: loan-api-service
+                port:
+                  number: 80

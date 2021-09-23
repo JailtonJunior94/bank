@@ -52,6 +52,7 @@ Projeto para simular empréstimos financeiros em um banco para clientes
    kubectl apply -f .\.k8s\namespaces\ -R
    kubectl apply -f .\.k8s\deployments\ -R -n bank
    kubectl apply -f .\.k8s\services\ -R -n bank
+   kubectl apply -f .\.k8s\certmanager\ -R -n bank
    kubectl apply -f .\.k8s\ingress\ -R -n bank
    kubectl apply -f .\.k8s\hpas\ -R -n bank
    ```
