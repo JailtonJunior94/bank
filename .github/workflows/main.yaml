@@ -9,7 +9,7 @@ env:
   K8S_NAMESPACE: bank
 
 jobs:
-  CI:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
