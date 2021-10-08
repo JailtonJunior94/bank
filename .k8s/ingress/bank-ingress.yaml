@@ -6,11 +6,11 @@ metadata:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
-  # tls:
-  #   - hosts:
-  #       - clientes.jailtonjunior.site
-  #       - emprestimos.jailtonjunior.site
-  #     secretName: bank-api-tls
+  tls:
+    - hosts:
+        - clientes.jailtonjunior.site
+        - emprestimos.jailtonjunior.site
+      secretName: bank-api-tls
   rules:
     - host: clientes.jailtonjunior.site
       http:

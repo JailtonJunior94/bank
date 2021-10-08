@@ -1,7 +1,7 @@
 # Bank 
 Projeto para simular empréstimos financeiros em um banco para clientes
 
-### Tecnologias Utilizadas
+## Tecnologias Utilizadas
 1. [Golang](https://golang.org/)
 2. [MongoDB](https://www.mongodb.com/)
 3. [RabbitMQ](https://www.rabbitmq.com/getstarted.html)
@@ -10,27 +10,26 @@ Projeto para simular empréstimos financeiros em um banco para clientes
 6. [Docker](https://www.docker.com/)
 7. [Kubernetes](https://kubernetes.io/pt-br/)
 8. [Minikube](https://minikube.sigs.k8s.io/docs/start/)
-9. [Digital Ocean](https://www.digitalocean.com/)
 
-### Funcionalidades
+## Funcionalidades
 1. Registrar cliente
 2. Buscar cliente por documento
 3. Solicitar empréstimo 
 4. Aprovar/Reprovar empréstimos
 5. Listar empréstimos de um cliente
    
-### Desenho da Solução
+## Desenho da Solução
 <p align="center">
   <img src=".docs/desenho-arquitetura.png" width="800" title="Main">
 </p>
 
-### Executar em ambiente local (Docker Compose)
+## Executar em ambiente local (Docker Compose)
 1. Na raiz do projeto executar o seguinte comando: 
     ```
     docker-compose up -d 
     ```
 
-### Executar em ambiente local (Minikube)
+## Executar em ambiente local (Minikube)
 1. Instalando minikube (Windows)
    ```
    choco install minikube
@@ -91,8 +90,25 @@ Projeto para simular empréstimos financeiros em um banco para clientes
     ```
     kubectl get hpa -n bank
     ```
+## Microsoft Azure (AKS)
+1. Autenticação no azure (Precisamos instalar o ([Azure CLI](https://docs.microsoft.com/pt-br/cli/azure/install-azure-cli))
+   ```
+   az login
+   ```
+2. Obtendo credenciais do cluster AKS 
+   ```
+   az aks get-credentials --resource-group $RESOURCE_GROUP --name $NAME
+   ```
+3. Instalando nginx ([Nginx](https://kubernetes.github.io/ingress-nginx/deploy/))
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/cloud/deploy.yaml
+   ```
+4. Instalando cert-manager ([Cert-Manager](https://cert-manager.io/docs/installation/))
+   ```
+   kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
+   ```
 
-### Executar teste de carga (Artillery.io)
+## Executar teste de carga (Artillery.io)
 1. Executando o teste de carga 
    ```
    artillery run -o artillery-report.json artillery.yaml

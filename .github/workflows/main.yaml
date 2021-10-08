@@ -7,9 +7,12 @@ on:
 
 env:
   K8S_NAMESPACE: bank
+  CUSTOMER_API: customer-api
+  LOAN_API: loan-api
+  RISK_WORKER: risk-worker
 
 jobs:
-  Build:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -17,8 +20,8 @@ jobs:
       - name: Docker Login
         uses: docker/login-action@v1.9.0
         with:
-          username: ${{secrets.DOCKER_USERNAME}}
-          password: ${{secrets.DOCKER_PASSWORD}}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push (Customer API)
         uses: docker/build-push-action@v2.4.0
@@ -27,8 +30,8 @@ jobs:
           file: customer/Dockerfile
           push: true
           tags: |
-            jailtonjunior/customer-api:latest
-            jailtonjunior/customer-api:v${{github.run_number}}
+            ${{ secrets.DOCKER_USERNAME }}/{{ env.CUSTOMER_API }}:latest
+            ${{ secrets.DOCKER_USERNAME }}/{{ env.CUSTOMER_API }}:v${{ github.run_number }}
 
       - name: Build and push (Loan API)
         uses: docker/build-push-action@v2.4.0
@@ -37,8 +40,8 @@ jobs:
           file: loan/Dockerfile
           push: true
           tags: |
-            jailtonjunior/loan-api:latest
-            jailtonjunior/loan-api:v${{github.run_number}}
+            ${{ secrets.DOCKER_USERNAME }}/{{ env.LOAN_API }}:latest
+            ${{ secrets.DOCKER_USERNAME }}/{{ env.LOAN_API }}:v${{ github.run_number }}
 
       - name: Build and push (Risk Worker)
         uses: docker/build-push-action@v2.4.0
@@ -47,5 +50,80 @@ jobs:
           file: risk/Dockerfile
           push: true
           tags: |
-            jailtonjunior/risk-worker:latest
-            jailtonjunior/risk-worker:v${{github.run_number}}
+            ${{ secrets.DOCKER_USERNAME }}/{{ env.RISK_WORKER }}:latest
+            ${{ secrets.DOCKER_USERNAME }}/{{ env.RISK_WORKER }}:v${{ github.run_number }}
+
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment:
+      name: deploy
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Kubernetes set context
+        uses: Azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.K8S_CONFIG }}
+
+      - name: Deploy Namespace and Metrics
+        uses: Azure/k8s-deploy@v1.3
+        with:
+          manifests: |
+            .k8s/namespaces/bank-ns.yaml 
+            .k8s/metrics/metric-server    
+
+      - name: Deploy MongoDB
+        uses: Azure/k8s-deploy@v1.3
+        with:
+          namespace: ${{ env.K8S_NAMESPACE }}
+          manifests: |
+            .k8s/deployments/mongo-dp.yaml
+            .k8s/services/mongo-svc.yaml
+
+      - name: Deploy RabbitMQ
+        uses: Azure/k8s-deploy@v1.3
+        with:
+          namespace: ${{ env.K8S_NAMESPACE }}
+          manifests: |
+            .k8s/deployments/rabbit-dp.yaml
+            .k8s/services/rabbit-svc.yaml             
+
+      - name: Deploy (Customer API)
+        uses: Azure/k8s-deploy@v1.3
+        with:
+          namespace: ${{ env.K8S_NAMESPACE }}
+          images: ${{ secrets.DOCKER_USERNAME }}/{{ env.CUSTOMER_API }}:v${{ github.run_number }}
+          manifests: |
+            .k8s/deployments/customer-api-dp.yaml
+            .k8s/services/customer-api-svc.yaml
+            .k8s/hpas/customer-api-hpa.yaml
+
+      - name: Deploy (Loan API)
+        uses: Azure/k8s-deploy@v1.3
+        with:
+          namespace: ${{ env.K8S_NAMESPACE }}
+          images: ${{ secrets.DOCKER_USERNAME }}/{{ env.LOAN_API }}:v${{ github.run_number }}
+          manifests: |
+            .k8s/deployments/loan-api-dp.yaml
+            .k8s/services/loan-api-svc.yaml
+            .k8s/hpas/loan-api-hpa.yaml
+
+      - name: Deploy (Risk Worker)
+        uses: Azure/k8s-deploy@v1.3
+        with:
+          namespace: ${{ env.K8S_NAMESPACE }}
+          images: ${{ secrets.DOCKER_USERNAME }}/{{ env.RISK_WORKER }}:v${{ github.run_number }}
+          manifests: |
+            .k8s/deployments/risk-worker-dp.yaml
+            .k8s/services/risk-worker-svc.yaml
+            .k8s/hpas/risk-worker-hpa.yaml
+
+      - name: Deploy Ingress and Cert-Manager
+        uses: Azure/k8s-deploy@v1.3
+        with:
+          namespace: ${{ env.K8S_NAMESPACE }}
+          manifests: |
+            .k8s/ingress/bank-ingress.yaml
+            .k8s/certmanager/clusterissuer.yml

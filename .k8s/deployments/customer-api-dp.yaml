@@ -23,15 +23,15 @@ spec:
               memory: "128Mi"
             requests:
               cpu: "100m"
-          livenessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /health
-              port: 8000
-            initialDelaySeconds: 120
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 120
+          # livenessProbe:
+          #   failureThreshold: 3
+          #   httpGet:
+          #     path: /health
+          #     port: 8000
+          #   initialDelaySeconds: 120
+          #   periodSeconds: 10
+          #   successThreshold: 1
+          #   timeoutSeconds: 120
           env:
             - name: ENVIRONMENT
               value: Production
