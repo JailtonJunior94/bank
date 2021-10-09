@@ -8,9 +8,6 @@ on:
 env:
   K8S_NAMESPACE: bank
   DOCKER_USERNAME: jailtonjunior
-  CUSTOMER_API: customer-api
-  LOAN_API: loan-api
-  RISK_WORKER: risk-worker
 
 jobs:
   build:
@@ -31,8 +28,8 @@ jobs:
           file: customer/Dockerfile
           push: true
           tags: |
-            ${{ env.DOCKER_USERNAME }}/{{ env.CUSTOMER_API }}:latest
-            ${{ env.DOCKER_USERNAME }}/{{ env.CUSTOMER_API }}:v${{ github.run_number }}
+            ${{ env.DOCKER_USERNAME }}/customer-api:latest
+            ${{ env.DOCKER_USERNAME }}/customer-api:v${{ github.run_number }}
 
       - name: Build and push (Loan API)
         uses: docker/build-push-action@v2.4.0
@@ -41,8 +38,8 @@ jobs:
           file: loan/Dockerfile
           push: true
           tags: |
-            ${{ env.DOCKER_USERNAME }}/{{ env.LOAN_API }}:latest
-            ${{ env.DOCKER_USERNAME }}/{{ env.LOAN_API }}:v${{ github.run_number }}
+            ${{ env.DOCKER_USERNAME }}/loan-api:latest
+            ${{ env.DOCKER_USERNAME }}/loan-api:v${{ github.run_number }}
 
       - name: Build and push (Risk Worker)
         uses: docker/build-push-action@v2.4.0
@@ -51,8 +48,8 @@ jobs:
           file: risk/Dockerfile
           push: true
           tags: |
-            ${{ env.DOCKER_USERNAME }}/{{ env.RISK_WORKER }}:latest
-            ${{ env.DOCKER_USERNAME }}/{{ env.RISK_WORKER }}:v${{ github.run_number }}
+            ${{ env.DOCKER_USERNAME }}/risk-worker:latest
+            ${{ env.DOCKER_USERNAME }}/risk-worker:v${{ github.run_number }}
 
   deploy:
     needs: [build]
@@ -95,7 +92,7 @@ jobs:
         uses: Azure/k8s-deploy@v1.3
         with:
           namespace: ${{ env.K8S_NAMESPACE }}
-          images: ${{ secrets.env }}/{{ env.CUSTOMER_API }}:v${{ github.run_number }}
+          images: ${{ secrets.env }}/customer-api:v${{ github.run_number }}
           manifests: |
             .k8s/deployments/customer-api-dp.yaml
             .k8s/services/customer-api-svc.yaml
@@ -105,7 +102,7 @@ jobs:
         uses: Azure/k8s-deploy@v1.3
         with:
           namespace: ${{ env.K8S_NAMESPACE }}
-          images: ${{ secrets.env }}/{{ env.LOAN_API }}:v${{ github.run_number }}
+          images: ${{ secrets.env }}/loan-api:v${{ github.run_number }}
           manifests: |
             .k8s/deployments/loan-api-dp.yaml
             .k8s/services/loan-api-svc.yaml
@@ -115,7 +112,7 @@ jobs:
         uses: Azure/k8s-deploy@v1.3
         with:
           namespace: ${{ env.K8S_NAMESPACE }}
-          images: ${{ secrets.env }}/{{ env.RISK_WORKER }}:v${{ github.run_number }}
+          images: ${{ secrets.env }}/risk-worker:v${{ github.run_number }}
           manifests: |
             .k8s/deployments/risk-worker-dp.yaml
             .k8s/services/risk-worker-svc.yaml
