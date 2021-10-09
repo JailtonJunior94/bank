@@ -7,10 +7,10 @@ on:
 
 env:
   K8S_NAMESPACE: bank
+  DOCKER_USERNAME: jailtonjunior
   CUSTOMER_API: customer-api
   LOAN_API: loan-api
   RISK_WORKER: risk-worker
-  DOCKER_USERNAME: jailtonjunior
 
 jobs:
   build:
