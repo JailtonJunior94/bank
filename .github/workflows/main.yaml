@@ -70,7 +70,7 @@ jobs:
         with:
           manifests: |
             .k8s/namespaces/bank-ns.yaml
-            .k8s/metrics/metric-server
+            .k8s/metrics/metric-server.yaml
 
       - name: Deploy MongoDB
         uses: Azure/k8s-deploy@v1.3
