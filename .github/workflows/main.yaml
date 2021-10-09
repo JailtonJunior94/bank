@@ -114,7 +114,6 @@ jobs:
           images: ${{ secrets.env }}/risk-worker:v${{ github.run_number }}
           manifests: |
             .k8s/deployments/risk-worker-dp.yaml
-            .k8s/services/risk-worker-svc.yaml
             .k8s/hpas/risk-worker-hpa.yaml
 
       - name: Deploy Ingress and Cert-Manager
