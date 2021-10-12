@@ -108,6 +108,29 @@ Projeto para simular empréstimos financeiros em um banco para clientes
    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
    ```
 
+## Habilitando Istio 
+1. Instalando istio
+   ```
+   istioctl install --set profile=demo -y
+   ```
+2. Habilitando no namespace
+   ```
+   kubectl label namespace <namespace> istio-injection=enabled
+   ```
+3. Habilitando Prometheus
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/addons/prometheus.yaml
+   ```
+4. Habilitando Grafana
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/addons/grafana.yaml
+   ```
+5. Habilitando Kiali
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/addons/kiali.yaml
+   istioctl dashboard kiali
+   ```
+
 ## Executar teste de carga (Artillery.io)
 1. Executando o teste de carga 
    ```
