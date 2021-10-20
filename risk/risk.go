@@ -22,17 +22,17 @@ func main() {
 		log.Fatal(err)
 	}
 
+	fmt.Println("Successfully connected to our RabbitMQ instance")
+	fmt.Println("Waiting for messages")
+
 	forever := make(chan bool)
 
 	go func() {
 		for message := range messages {
 			fmt.Printf("Recieved Message: %s\n", message.Body)
-			go ioc.RiskHandle.AnalyzeRisk(message.Body)
+			ioc.RiskHandle.AnalyzeRisk(message.Body)
 		}
 	}()
-
-	fmt.Println("Successfully connected to our RabbitMQ instance")
-	fmt.Println("[*] - Waiting for messages")
 
 	<-forever
 }
