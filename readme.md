@@ -111,7 +111,7 @@ Projeto para simular empréstimos financeiros em um banco para clientes
 ## Habilitando Istio 
 1. Instalando istio
    ```
-   istioctl install --set profile=demo -y
+   istioctl install --set profile=default -y
    ```
 2. Habilitando no namespace
    ```
@@ -120,10 +120,12 @@ Projeto para simular empréstimos financeiros em um banco para clientes
 3. Habilitando Prometheus
    ```
    kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/addons/prometheus.yaml
+   istioctl dashboard prometheus
    ```
 4. Habilitando Grafana
    ```
    kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/addons/grafana.yaml
+   istioctl dashboard grafana
    ```
 5. Habilitando Kiali
    ```
