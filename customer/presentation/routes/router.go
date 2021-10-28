@@ -11,9 +11,9 @@ func SetupRoutes(app *fiber.App) {
 	AddCustomerRouter(v1)
 
 	app.Get("/health", func(c *fiber.Ctx) error {
-		return c.JSON(fiber.Map{
-			"status": "Healthy",
-			"time":   time.Now(),
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{
+			"message": "Healthy",
+			"time":    time.Now(),
 		})
 	})
 }

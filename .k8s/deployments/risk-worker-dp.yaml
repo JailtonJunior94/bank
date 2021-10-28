@@ -16,13 +16,14 @@ spec:
     spec:
       containers:
         - name: risk-worker
-          image: jailtonjunior/risk-worker:v29
+          image: jailtonjunior/risk-worker:v31
           resources:
             limits:
               cpu: "200m"
               memory: "128Mi"
             requests:
               cpu: "100m"
+              memory: "128Mi"
           env:
             - name: ENVIRONMENT
               value: Production

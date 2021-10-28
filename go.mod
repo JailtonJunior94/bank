@@ -4,7 +4,6 @@ go 1.16
 
 require (
 	github.com/andybalholm/brotli v1.0.3 // indirect
-	github.com/aschenmaker/fiber-health-check v0.1.1
 	github.com/gofiber/fiber/v2 v2.19.0
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/spf13/viper v1.8.0

@@ -16,22 +16,23 @@ spec:
     spec:
       containers:
         - name: customer-api
-          image: jailtonjunior/customer-api:v29
+          image: jailtonjunior/customer-api:v31
           resources:
             limits:
               cpu: "200m"
               memory: "128Mi"
             requests:
               cpu: "100m"
-          # livenessProbe:
-          #   failureThreshold: 3
-          #   httpGet:
-          #     path: /health
-          #     port: 8000
-          #   initialDelaySeconds: 120
-          #   periodSeconds: 10
-          #   successThreshold: 1
-          #   timeoutSeconds: 120
+              memory: "128Mi"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            periodSeconds: 10
+            initialDelaySeconds: 120
+            failureThreshold: 3
+            timeoutSeconds: 60
+            successThreshold: 1
           env:
             - name: ENVIRONMENT
               value: Production
